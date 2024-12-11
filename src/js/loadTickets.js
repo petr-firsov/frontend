@@ -5,7 +5,7 @@ import { deleteTicket } from './deleteTicket';
 
 export function loadTickets() {
     document.addEventListener('DOMContentLoaded', () => {
-        fetch('https://github.com/petr-firsov/backend:7070?method=allTickets')
+        fetch('https://github.com/petr-firsov/backend?method=allTickets')
         .then((response) => {
             const tickets = response.json();
             return tickets
