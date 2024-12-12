@@ -7,7 +7,7 @@ export function deleteTicket() {
         removeTicketForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', `https://github.com/petr-firsov/backend?method=deleteById&id=${currentTicket.id}`);
+            xhr.open('GET', `https://petr-firsov.github.io/backend?method=deleteById&id=${currentTicket.id}`);
             xhr.send();
             xhr.addEventListener('load', () => {
                 currentTicket.remove();

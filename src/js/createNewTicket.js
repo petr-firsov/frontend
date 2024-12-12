@@ -9,7 +9,7 @@ export function createNewTicket() {
               name: newTitle,
               description: newDescription,
             };
-            fetch('https://github.com/petr-firsov/backend?method=createTicket', {
+            fetch('https://petr-firsov.github.io/backend?method=createTicket', {
               method: "POST",
               body: JSON.stringify(newTicketData)
             })

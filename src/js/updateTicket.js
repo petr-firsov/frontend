@@ -21,7 +21,7 @@ export function updateTicket() {
                   name: titleField.value,
                   description: descriptionField.value,
                 };
-                fetch(`https://github.com/petr-firsov/backend?method=updateById&id=${currentId}`, {
+                fetch(`https://petr-firsov.github.io/backend?method=updateById&id=${currentId}`, {
                     method: "POST",
                     body: JSON.stringify(updateData)
                 })
