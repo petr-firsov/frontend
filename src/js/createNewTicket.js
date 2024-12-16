@@ -1,5 +1,6 @@
 import { deleteTicket } from "./deleteTicket";
 import { updateTicketTextContent } from "./updateTicket";
+import { showTicketDescription } from "./showTicketDescription";
 
 function createNewTicket(e) {
   e.preventDefault();
@@ -52,6 +53,7 @@ function createNewTicket(e) {
       const addTicketForm = document.querySelector('.add-ticket-form');
       addTicketForm.classList.add('hide-form');
 
+      showTicketDescription();
       updateTicketTextContent();
       deleteTicket();
     });
@@ -69,5 +71,10 @@ export function newTicketForm() {
         newTitle.focus();
     });
     const addTicketForm = document.querySelector('.add-ticket-form');
-    addTicketForm.addEventListener('submit', (e) => createNewTicket(e));
+    addTicketForm.addEventListener('submit', (e) => {
+      createNewTicket(e);
+      const thisForm = e.target;
+      const thisFormFields = Array.from(thisForm.querySelectorAll('.form-field'));
+      thisFormFields.forEach(formField => formField.value = '');
+    });
 }
