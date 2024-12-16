@@ -1,24 +1,24 @@
 import { showTicketDescription } from './showTicketDescription';
-import { ticketBtns } from './ticketBtns';
-import { updateTicket } from './updateTicket';
+import { cancelBtns } from './cancelBtns';
+import { updateTicketTextContent } from './updateTicket';
 import { deleteTicket } from './deleteTicket';
+import { updateTicketStatus } from './updateTicketStatus';
 
-export function loadTickets() {
-    document.addEventListener('DOMContentLoaded', () => {
-        fetch('https://petr-firsov.github.io/backend/?method=allTickets')
+function loadTicketsFromServer() {
+        fetch('https://backend-rh9i.onrender.com/?method=allTickets')
         .then((response) => {
             const tickets = response.json();
             return tickets
         })
         .then((tickets) => {
-            tickets.forEach(ticket => {
+            tickets.forEach(loadedTicket => {
                 let newTicket = document.createElement('div');
                 newTicket.classList.add('ticket');
                 newTicket.innerHTML = `
                     <input type="checkbox" class="ticket-checkbox">
                     <div class="ticket-text-content">
-                    <div class="ticket-title"></div>
-                    <div class="ticket-description"></div>  
+                        <div class="ticket-title"></div>
+                        <div class="ticket-description"></div>  
                     </div>
                     <div class="ticket-date"></div>
                     <div class="ticket-btns">
@@ -28,17 +28,23 @@ export function loadTickets() {
                 `;
 
                 const newTicketTitle = newTicket.querySelector('.ticket-title');
-                newTicketTitle.textContent = ticket.name.trim();
+                newTicketTitle.textContent = loadedTicket.name.trim();
 
                 const newTicketDescription = newTicket.querySelector('.ticket-description');
-                newTicketDescription.textContent = ticket.description.trim();
+                newTicketDescription.textContent = loadedTicket.description.trim();
 
                 const newTicketDate = newTicket.querySelector('.ticket-date');
-                const thisTicketMs = ticket.created;
+                const thisTicketMs = loadedTicket.created;
                 const thisTicketDate = new Date(thisTicketMs).toLocaleString();
                 newTicketDate.textContent = thisTicketDate;
 
-                newTicket.setAttribute('id', ticket.id);
+                const newTicketCheckbox = newTicket.querySelector('.ticket-checkbox');
+                console.log(loadedTicket)
+                if (loadedTicket.status === true) {
+                    newTicketCheckbox.checked = true;
+                } 
+
+                newTicket.setAttribute('id', loadedTicket.id);
 
                 const ticketBox = document.querySelector('#ticket-box');
                 ticketBox.appendChild(newTicket);
@@ -46,9 +52,13 @@ export function loadTickets() {
         })
         .then(() => {
             showTicketDescription();
-            ticketBtns();
-            updateTicket();
+            cancelBtns();
+            updateTicketTextContent();
+            updateTicketStatus();
             deleteTicket();
         });
-    })
+}
+
+export function loadTickets() {
+    document.addEventListener('DOMContentLoaded', loadTicketsFromServer());
 };
